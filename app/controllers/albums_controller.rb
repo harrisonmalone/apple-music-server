@@ -31,10 +31,8 @@ class AlbumsController < ApplicationController
   end
 
   def destroy
-    params[:albums].each do |album|
-      album_to_delete = Album.find_by(artist: album[:artist], title: album[:title])
-      album_to_delete.destroy
-    end
+    album_to_delete = Album.find(params[:id])
+    album_to_delete.destroy
     render status: :no_content
   end
   
