@@ -56,7 +56,7 @@ class AlbumsController < ApplicationController
       genre = album[:attributes][:genreNames][0]
       track_count = album[:attributes][:trackCount]
       date_added = album[:attributes][:dateAdded]
-      album_to_edit = Album.find_by(title: album[:attributes][:name])
+      album_to_edit = Album.find_by(title: album[:attributes][:artistName])
       if album_to_edit
         album_to_edit.update(
           apple_music_id: apple_music_id,
