@@ -49,4 +49,23 @@ class AlbumsController < ApplicationController
     end 
     render status: :ok
   end
+
+  def extra_apple_music_data 
+    params[:albums].each do |album|
+      apple_music_id = album[:id]
+      genre = album[:attributes][:genreNames][0]
+      track_count = album[:attributes][:trackCount]
+      date_added = album[:attributes][:dateAdded]
+      album_to_edit = Album.find_by(title: album[:attributes][:name])
+      if album_to_edit
+        album_to_edit.update(
+          apple_music_id: apple_music_id,
+          genre: genre,
+          track_count: track_count,
+          date_added: date_added
+        )
+      end
+    end
+    render json: :ok
+  end
 end
