@@ -10,6 +10,10 @@ class AlbumsController < ApplicationController
         title: album[:attributes][:name],
         year: album[:year],
         image_url: album[:imageUrl],
+        apple_music_id: album[:id],
+        genre: album[:attributes][:genreNames][0],
+        track_count: album[:attributes][:trackCount],
+        date_added: album[:attributes][:dateAdded],
         wikipedia: "",
         pitchfork: ""
       )
@@ -43,6 +47,10 @@ class AlbumsController < ApplicationController
         title: album[:attributes][:name],
         year: album[:year],
         image_url: album[:imageUrl] || "",
+        apple_music_id: album[:id],
+        genre: album[:attributes][:genreNames][0],
+        track_count: album[:attributes][:trackCount],
+        date_added: album[:attributes][:dateAdded],
         wikipedia: "",
         pitchfork: ""
       )
