@@ -1,9 +1,9 @@
 class AlbumsController < ApplicationController
-  def index 
+  def index
     render json: Album.order(:year)
   end
 
-  def create 
+  def create
     params[:albums].each do |album|
       Album.create(
         artist: album[:attributes][:artistName],
@@ -14,14 +14,14 @@ class AlbumsController < ApplicationController
         genre: album[:attributes][:genreNames][0],
         track_count: album[:attributes][:trackCount],
         date_added: album[:attributes][:dateAdded],
-        wikipedia: "",
-        pitchfork: ""
+        wikipedia: '',
+        pitchfork: ''
       )
-    end 
+    end
     render status: :created
   end
 
-  def update 
+  def update
     album = Album.find(params[:id])
     album.update(
       artist: params[:artist],
@@ -29,7 +29,7 @@ class AlbumsController < ApplicationController
       year: params[:year],
       image_url: params[:image],
       wikipedia: params[:wikipedia],
-      pitchfork: params[:pitchfork] 
+      pitchfork: params[:pitchfork]
     )
     render status: :no_content
   end
@@ -39,40 +39,40 @@ class AlbumsController < ApplicationController
     album_to_delete.destroy
     render status: :no_content
   end
-  
-  def seed 
+
+  def seed
     params[:albums].each do |album|
       Album.create(
         artist: album[:attributes][:artistName],
         title: album[:attributes][:name],
         year: album[:year],
-        image_url: album[:imageUrl] || "",
+        image_url: album[:imageUrl] || '',
         apple_music_id: album[:id],
         genre: album[:attributes][:genreNames][0],
         track_count: album[:attributes][:trackCount],
         date_added: album[:attributes][:dateAdded],
-        wikipedia: "",
-        pitchfork: ""
+        wikipedia: '',
+        pitchfork: ''
       )
-    end 
+    end
     render status: :ok
   end
 
-  def extra_apple_music_data 
+  def extra_apple_music_data
     params[:albums].each do |album|
       apple_music_id = album[:id]
       genre = album[:attributes][:genreNames][0]
       track_count = album[:attributes][:trackCount]
       date_added = album[:attributes][:dateAdded]
       album_to_edit = Album.find_by(title: album[:attributes][:name])
-      if album_to_edit
-        album_to_edit.update(
-          apple_music_id: apple_music_id,
-          genre: genre,
-          track_count: track_count,
-          date_added: date_added
-        )
-      end
+      next unless album_to_edit
+
+      album_to_edit.update(
+        apple_music_id: apple_music_id,
+        genre: genre,
+        track_count: track_count,
+        date_added: date_added
+      )
     end
     render json: :ok
   end
